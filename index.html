@@ -1,1 +1,452 @@
+<html><head><base href="https://cdn.jsdelivr.net/">    
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reproductor Principal y Galería de Reproductores</title>
 
+    <!-- Add these meta tags for SEO -->
+    <meta name="description" content="Explora nuestra galería de reproductores y contenido exclusivo. Comparte y disfruta de videos únicos.">
+    <meta name="keywords" content="reproductor, galería, videos, contenido exclusivo">
+    <meta name="author" content="Tu Nombre o Nombre del Sitio">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph meta tags for better social media sharing -->
+    <meta property="og:title" content="Reproductor Principal y Galería de Reproductores">
+    <meta property="og:description" content="Explora nuestra galería de reproductores y contenido exclusivo. Comparte y disfruta de videos únicos.">
+    <meta property="og:image" content="https://tu-dominio.com/imagen-preview.jpg">
+    <meta property="og:url" content="https://tu-dominio.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Reproductor Principal y Galería de Reproductores">
+    <meta name="twitter:description" content="Explora nuestra galería de reproductores y contenido exclusivo. Comparte y disfruta de videos únicos.">
+    <meta name="twitter:image" content="https://tu-dominio.com/imagen-preview.jpg">
+
+    <!-- Canonical link to prevent duplicate content issues -->
+    <link rel="canonical" href="https://tu-dominio.com">
+
+    <script src="npm/i18next@21.6.10/i18next.min.js"></script>
+    <script src="npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 95%;
+    width: 800px;
+    margin-bottom: 20px;
+}
+
+.player {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.player img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,0.5);
+    border: none;
+    color: white;
+    font-size: 4rem;
+    padding: 20px 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.play-button:hover {
+    background-color: rgba(0,0,0,0.7);
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.cta-button, .whatsapp-button {
+    flex: 1;
+    margin: 0 10px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cta-button {
+    background-color: #ff4500;
+    color: white;
+}
+
+.cta-button:hover {
+    background-color: #ff6347;
+}
+
+.whatsapp-button {
+    background-color: #25D366;
+    color: white;
+}
+
+.whatsapp-button:hover {
+    background-color: #128C7E;
+}
+
+.button-icon {
+    margin-right: 10px;
+    width: 24px;
+    height: 24px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 95%;
+    width: 800px;
+}
+
+.gallery-item {
+    position: relative;
+    padding-top: 56.25%;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.gallery-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-item .play-button {
+    font-size: 2rem;
+    padding: 10px 15px;
+}
+
+.content-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.warning-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 80%;
+}
+
+.share-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.share-button:hover {
+    background-color: #0077c5;
+}
+
+@media (max-width: 768px) {
+    .container, .gallery {
+        width: 95%;
+    }
+    
+    .play-button {
+        font-size: 3rem;
+        padding: 15px 25px;
+    }
+    
+    .button-container {
+        flex-direction: column;
+    }
+    
+    .cta-button, .whatsapp-button {
+        margin: 10px 0;
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style></head><body>
+<div id="content-warning" class="content-warning" style="display: none;">
+    <div class="warning-box">
+        <h2 data-i18n="warning.title">Advertencia de Contenido</h2>
+        <p data-i18n="warning.message">Este contenido es estrictamente delicado. Para ver este contenido debes compartir en WhatsApp y estaremos validando que eres mayor de 18 años.</p>
+        <a id="share-whatsapp" class="share-button" href="#" data-i18n="warning.share">Compartir en WhatsApp</a>
+    </div>
+</div>
+
+<div class="container" id="main-player">
+    <div class="player">
+        <img id="playerImage" alt="Mujer atractiva posando, fotografía de moda de alta resolución" src="" width="800" height="450" data-custom-url="">
+        <button class="play-button">▶</button>
+    </div>
+    <div class="button-container">
+        <a href="https://example.com/ver-mi-video-ahora" class="cta-button">
+            <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span data-i18n="buttons.watchVideo">VER MI VIDEO</span>
+        </a>
+        <a href="https://api.whatsapp.com/send?phone=1234567890&text=Hola%2C%20me%20interesa%20tu%20video" class="whatsapp-button">
+            <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            <span data-i18n="buttons.whatsapp">CHAT WHATSAPP</span>
+        </a>
+    </div>
+</div>
+
+<div class="gallery">
+    <div class="gallery-item">
+        <img alt="Mujer atractiva en la playa, fotografía de estilo de vida" src="" width="400" height="225" data-custom-url="">
+        <button class="play-button">▶</button>
+    </div>
+    <div class="gallery-item">
+        <img alt="Mujer atractiva en un café, fotografía casual urbana" src="" width="400" height="225" data-custom-url="">
+        <button class="play-button">▶</button>
+    </div>
+    <div class="gallery-item">
+        <img alt="Mujer atractiva haciendo yoga, fotografía de bienestar" src="" width="400" height="225" data-custom-url="">
+        <button class="play-button">▶</button>
+    </div>
+    <div class="gallery-item">
+        <img alt="Mujer atractiva en un concierto, fotografía de evento nocturno" src="" width="400" height="225" data-custom-url="">
+        <button class="play-button">▶</button>
+    </div>
+    <div class="gallery-item">
+        <img alt="Mujer atractiva en una sesión de fotos de moda, fotografía editorial" src="" width="400" height="225" data-custom-url="">
+        <button class="play-button">▶</button>
+    </div>
+    <div class="gallery-item">
+        <img alt="Mujer atractiva en un parque, fotografía de retrato al aire libre" src="" width="400" height="225" data-custom-url="">
+        <button class="play-button">▶</button>
+    </div>
+</div>
+
+<script>
+const resources = {
+  en: {
+    translation: {
+      "warning.title": "Content Warning",
+      "warning.message": "This content is strictly sensitive. To view this content, you must share on WhatsApp, and we will verify that you are over 18 years old.",
+      "warning.share": "Share on WhatsApp",
+      "buttons.watchVideo": "WATCH MY VIDEO",
+      "buttons.whatsapp": "WHATSAPP CHAT",
+      "share.message": "Check out this interesting content!"
+    }
+  },
+  es: {
+    translation: {
+      "warning.title": "Advertencia de Contenido",
+      "warning.message": "Este contenido es estrictamente delicado. Para ver este contenido debes compartir en WhatsApp y estaremos validando que eres mayor de 18 años.",
+      "warning.share": "Compartir en WhatsApp",
+      "buttons.watchVideo": "VER MI VIDEO",
+      "buttons.whatsapp": "CHAT WHATSAPP",
+      "share.message": "¡Mira este contenido interesante!"
+    }
+  },
+  hi: {
+    translation: {
+      "warning.title": "सामग्री चेतावनी",
+      "warning.message": "यह सामग्री अत्यंत संवेदनशील है। इस सामग्री को देखने के लिए, आपको WhatsApp पर शेयर करना होगा और हम सत्यापित करेंगे कि आप 18 वर्ष से अधिक आयु के हैं।",
+      "warning.share": "WhatsApp पर शेयर करें",
+      "buttons.watchVideo": "मेरा वीडियो देखें",
+      "buttons.whatsapp": "व्हाट्सएप चैट",
+      "share.message": "इस दिलचस्प सामग्री को देखें!"
+    }
+  },
+  de: {
+    translation: {
+      "warning.title": "Inhaltswarnung",
+      "warning.message": "Dieser Inhalt ist streng vertraulich. Um diesen Inhalt anzusehen, müssen Sie ihn auf WhatsApp teilen, und wir werden überprüfen, ob Sie über 18 Jahre alt sind.",
+      "warning.share": "Auf WhatsApp teilen",
+      "buttons.watchVideo": "MEIN VIDEO ANSEHEN",
+      "buttons.whatsapp": "WHATSAPP-CHAT",
+      "share.message": "Schau dir diesen interessanten Inhalt an!"
+    }
+  },
+  pt: {
+    translation: {
+      "warning.title": "Aviso de Conteúdo",
+      "warning.message": "Este conteúdo é estritamente sensível. Para visualizar este conteúdo, você deve compartilhar no WhatsApp e verificaremos se você tem mais de 18 anos.",
+      "warning.share": "Compartilhar no WhatsApp",
+      "buttons.watchVideo": "VER MEU VÍDEO",
+      "buttons.whatsapp": "CHAT DO WHATSAPP",
+      "share.message": "Confira este conteúdo interessante!"
+    }
+  }
+};
+
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i=0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+let hasShared = getCookie('hasShared') === 'true';
+
+function mostrarAdvertenciaContenido() {
+    if (getCookie('hasShared') !== 'true') {
+        document.getElementById('content-warning').style.display = 'flex';
+    }
+}
+
+function compartirEnWhatsApp() {
+    const shareUrl = encodeURIComponent(window.location.href);
+    const shareText = encodeURIComponent(i18next.t('share.message'));
+    
+    // WhatsApp sharing URL
+    const whatsappUrl = `whatsapp://send?text=${shareText} ${shareUrl}`;
+    
+    // Attempt to open WhatsApp
+    window.location.href = whatsappUrl;
+    
+    // Set hasShared to true and save to cookie
+    setCookie('hasShared', 'true', 30); // Cookie expires in 30 days
+    
+    // Hide the warning
+    document.getElementById('content-warning').style.display = 'none';
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const shareButton = document.getElementById('share-whatsapp');
+    shareButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        compartirEnWhatsApp();
+    });
+    mostrarAdvertenciaContenido();
+
+    // Initialize i18next
+    i18next
+      .use(i18nextBrowserLanguageDetector)
+      .init({
+        fallbackLng: 'en',
+        debug: true,
+        resources: resources
+      }, function(err, t) {
+        jqueryI18next.init(i18next, $);
+        $('body').localize();
+      });
+});
+
+document.querySelectorAll('.play-button').forEach(button => {
+    button.addEventListener('click', mostrarAdvertenciaContenido);
+});
+
+function getRandomImage(customUrl) {
+    if (customUrl) return customUrl;
+    const timestamp = new Date().getTime();
+    return `https://source.unsplash.com/800x450/?attractive,woman&${timestamp}`;
+}
+
+function updateImages() {
+    const mainPlayerImg = document.getElementById('playerImage');
+    mainPlayerImg.src = getRandomImage(mainPlayerImg.dataset.customUrl);
+    
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+        img.src = getRandomImage(img.dataset.customUrl);
+    });
+}
+
+// Set initial images
+updateImages();
+
+// Swap clicked gallery item with main player
+document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', function() {
+        const mainPlayer = document.getElementById('main-player');
+        const mainPlayerContent = mainPlayer.innerHTML;
+        mainPlayer.innerHTML = this.innerHTML;
+        this.innerHTML = mainPlayerContent;
+
+        // Reassign event listeners
+        mainPlayer.querySelector('.play-button').addEventListener('click', mostrarAdvertenciaContenido);
+
+        this.addEventListener('click', arguments.callee);
+    });
+});
+
+// Preload next images for smoother experience on refresh
+window.addEventListener('beforeunload', function() {
+    const imgs = [new Image(), new Image(), new Image(), new Image()];
+    imgs.forEach(img => img.src = getRandomImage());
+});
+</script>
+</body></html>
